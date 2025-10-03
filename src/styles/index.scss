@@ -1,3 +1,51 @@
+$siz-cell-day: 100px;
+$distance-between-cells-days: 1px;
+$start-day: 'fri';
+$days: (
+  'mon': '\0',
+  'tue': '\$siz-cell-day + $distance-between-cells-days',
+  'wed': '\2*($siz-cell-day + $distance-between-cells-days)',
+  'thu': '\3*($siz-cell-day + $distance-between-cells-days)',
+  'fri': '\4*($siz-cell-day + $distance-between-cells-days)',
+  'sat': '\5*($siz-cell-day + $distance-between-cells-days)',
+  'sun': '\6*($siz-cell-day + $distance-between-cells-days)',
+);
+$days-in-the-month: 28;
+
 body {
   margin: 0;
+  font-family: Arial, sans-serif;
+  font-size: 30px;
+}
+
+.calendar {
+
+  display: flex;
+  gap: 1px;
+  flex-wrap: wrap;
+  padding: 10px;
+  width: 7 * $siz-cell-day + 6 * $distance-between-cells-days;
+
+  @each $start-day, $margin in $days {
+    &:nth-child(1)::before {
+      margin-left: $margin;
+    }
+  }
+
+  &__day {
+    background-color: #eee;
+    border: 1px solid black;
+    box-sizing: border-box;
+    display: flex;
+    height: $siz-cell-day;
+    justify-content: center;
+    align-items: center;
+    width: $siz-cell-day;
+
+    @for $date from 1 through 31 {
+      &:nth-child(#{$date})::before {
+        content: '#{$date}';
+      }
+    }
+  }
 }
