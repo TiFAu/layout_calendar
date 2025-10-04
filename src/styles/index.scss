@@ -8,9 +8,8 @@ $days: (
   'sun': 6,
 );
 $between-cells: 1px;
-$month-length: 28;
+$month-length: 29;
 $siz-cell: 100px;
-$start-day: 'sat';
 
 body {
   margin: 0;
@@ -25,6 +24,14 @@ body {
   padding: 10px;
   width: 7 * $siz-cell + 6 * $between-cells;
 
+  @each $name-day, $index-day in $days {
+    &--start-day-#{$name-day} {
+      .calendar__day:first-child {
+        margin-left: $index-day * ($siz-cell + $between-cells);
+      }
+    }
+  }
+
   &__day {
     background-color: #eee;
     border: 1px solid black;
@@ -34,12 +41,6 @@ body {
     justify-content: center;
     align-items: center;
     width: $siz-cell;
-
-    @each $start-day, $index-day in $days {
-      &--start-day {
-        margin-left: $index-day * ($siz-cell + $between-cells);
-      }
-    }
 
     @for $date from 1 through 31 {
       &:nth-child(#{$date})::before {
