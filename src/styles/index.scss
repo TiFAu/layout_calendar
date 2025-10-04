@@ -12,9 +12,13 @@ $month-length: 31;
 $siz-cell: 100px;
 
 body {
-  margin: 0;
+  align-items: center;
+  display: flex;
   font-family: Arial, sans-serif;
   font-size: 30px;
+  height: 100vh;
+  justify-content: center;
+  margin: 0;
 }
 
 .calendar {
@@ -32,9 +36,13 @@ body {
     }
   }
 
-  @for $i from 1 through 31 {
-    &--month-length-#{$i}:nth-child(#{$i + 1}) {
-      display: none;
+  @for $i from 28 through 31 {
+    &--month-length-#{$i} {
+      .calendar__day {
+        &:nth-child(n + #{$i + 1}) {
+          display: none;
+        }
+      }
     }
   }
 
