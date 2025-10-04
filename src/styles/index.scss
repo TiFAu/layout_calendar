@@ -1,16 +1,16 @@
-$siz-cell-day: 100px;
-$distance-between-cells-days: 1px;
-$start-day: 'fri';
 $days: (
-  'mon': '\0',
-  'tue': '\$siz-cell-day + $distance-between-cells-days',
-  'wed': '\2*($siz-cell-day + $distance-between-cells-days)',
-  'thu': '\3*($siz-cell-day + $distance-between-cells-days)',
-  'fri': '\4*($siz-cell-day + $distance-between-cells-days)',
-  'sat': '\5*($siz-cell-day + $distance-between-cells-days)',
-  'sun': '\6*($siz-cell-day + $distance-between-cells-days)',
+  'mon': 0,
+  'tue': 1,
+  'wed': 2,
+  'thu': 3,
+  'fri': 4,
+  'sat': 5,
+  'sun': 6,
 );
-$days-in-the-month: 28;
+$between-cells: 1px;
+$month-length: 28;
+$siz-cell: 100px;
+$start-day: 'sat';
 
 body {
   margin: 0;
@@ -19,33 +19,44 @@ body {
 }
 
 .calendar {
-
   display: flex;
   gap: 1px;
   flex-wrap: wrap;
   padding: 10px;
-  width: 7 * $siz-cell-day + 6 * $distance-between-cells-days;
-
-  @each $start-day, $margin in $days {
-    &:nth-child(1)::before {
-      margin-left: $margin;
-    }
-  }
+  width: 7 * $siz-cell + 6 * $between-cells;
 
   &__day {
     background-color: #eee;
     border: 1px solid black;
     box-sizing: border-box;
     display: flex;
-    height: $siz-cell-day;
+    height: $siz-cell;
     justify-content: center;
     align-items: center;
-    width: $siz-cell-day;
+    width: $siz-cell;
+
+    @each $start-day, $index-day in $days {
+      &--start-day {
+        margin-left: $index-day * ($siz-cell + $between-cells);
+      }
+    }
 
     @for $date from 1 through 31 {
       &:nth-child(#{$date})::before {
         content: '#{$date}';
       }
+    }
+
+    @for $i from $month-length through 31 {
+      &:nth-child(#{$i + 1}) {
+        display: none;
+      }
+    }
+
+    &:hover {
+      background-color: #ffbfcb;
+      transform: translate(0, -20px);
+      transition: transform 0.5s linear 0;
     }
   }
 }
