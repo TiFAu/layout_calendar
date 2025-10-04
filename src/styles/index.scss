@@ -7,8 +7,8 @@ $days: (
   'sat': 5,
   'sun': 6,
 );
-$between-cells: 1px;
-$month-length: 29;
+$gap: 1px;
+$month-length: 31;
 $siz-cell: 100px;
 
 body {
@@ -22,13 +22,19 @@ body {
   gap: 1px;
   flex-wrap: wrap;
   padding: 10px;
-  width: 7 * $siz-cell + 6 * $between-cells;
+  width: 7 * $siz-cell + 6 * $gap;
 
   @each $name-day, $index-day in $days {
     &--start-day-#{$name-day} {
       .calendar__day:first-child {
-        margin-left: $index-day * ($siz-cell + $between-cells);
+        margin-left: $index-day * ($siz-cell + $gap);
       }
+    }
+  }
+
+  @for $i from 1 through 31 {
+    &--month-length-#{$i}:nth-child(#{$i + 1}) {
+      display: none;
     }
   }
 
@@ -48,17 +54,11 @@ body {
       }
     }
 
-    @for $i from $month-length through 31 {
-      &:nth-child(#{$i + 1}) {
-        display: none;
-      }
-    }
-
     &:hover {
       cursor: pointer;
       background-color: #ffbfcb;
-      transform: translate(0, -20px);
-      transition: transform 0.5s linear 0;
+      transition: 0.5s;
+      transform: translateY(-20px);
     }
   }
 }
